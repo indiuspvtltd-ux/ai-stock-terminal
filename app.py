@@ -276,7 +276,7 @@ def generate_t1_outlook(df):
         
     return t1_target, direction, reason, color
 
-# GROQ AI ENGINE (LLAMA 3.1)
+# GROQ AI ENGINE
 def call_live_ai_model(prompt, ticker, price, rsi, macd_status, pivot, r1, s1, t1_dir, t1_target, probable_up_pct):
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
@@ -299,7 +299,7 @@ def call_live_ai_model(prompt, ticker, price, rsi, macd_status, pivot, r1, s1, t
     }
     
     payload = {
-        "model": "llama-3.1-8b-instant",
+        "model": "openai/gpt-oss-20b",
         "messages": [
             {"role": "system", "content": system_context},
             {"role": "user", "content": prompt}
@@ -532,7 +532,7 @@ if st.session_state.current_view == "Single Stock Analysis":
             st.markdown("---")
 
             st.subheader(f"💬 AI ASSISTANT CHAT: ASK ANYTHING ABOUT {ticker} OR GENERAL TOPICS")
-            st.write("Powered by Groq & Llama 3. Ask about this stock, market trends, coding, or anything else!")
+            st.write("Powered by Groq AI. Ask about this stock, market trends, coding, or anything else!")
 
             if ticker not in st.session_state.chat_messages:
                 st.session_state.chat_messages[ticker] = [
