@@ -333,10 +333,11 @@ def get_intraday_data(symbol):
 
 @st.cache_data(ttl=600)
 def get_top_100_market_news(ticker=""):
-    """Fetches up to 100 live breaking stock market headlines from Indian and global financial feeds"""
+    """Fetches up to 100 live breaking stock market headlines strictly from the last 7 days"""
     news_items = []
     try:
-        query = f"{ticker} stock market India NSE" if ticker else "Indian stock market Nifty Sensex NSE BSE business"
+        # Added the when:7d parameter to strictly enforce recency 
+        query = f"{ticker} stock market India NSE when:7d" if ticker else "Indian stock market Nifty Sensex NSE BSE business when:7d"
         url = f"https://news.google.com/rss/search?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
         headers = {'User-Agent': 'Mozilla/5.0'}
         res = requests.get(url, headers=headers, timeout=6)
@@ -820,25 +821,24 @@ if st.session_state.current_view == "Single Stock Analysis":
 
             if news_list:
                 marquee_headline_str = " &nbsp;&nbsp;&nbsp;&nbsp; 🔴 BREAKING: &nbsp;&nbsp;&nbsp;&nbsp; ".join([f"{item['title']} ({item['date']})" for item in news_list[:25]])
-                st.markdown(f"""
-                <div class="news-marquee-container" title="Hover to Pause">
-                    <div class="news-marquee-text">🔴 LIVE TICKER: {marquee_headline_str}</div>
-                </div>
-                """, unsafe_allow_html=True)
+                
+                # Render the horizontally scrolling marquee
+                st.markdown(f"""<div class="news-marquee-container" title="Hover to Pause">
+<div class="news-marquee-text">🔴 LIVE TICKER: {marquee_headline_str}</div>
+</div>""", unsafe_allow_html=True)
 
-                news_cards_html = f'<div class="glossy-news-box">'
+                # Render the scrollable news container (Left aligned to avoid Streamlit Markdown bug)
+                news_cards_html = '<div class="glossy-news-box">'
                 for idx, n in enumerate(news_list):
-                    news_cards_html += f"""
-                    <div class="news-card">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                            <span style="color: #3B82F6; font-size: 0.8rem; font-weight: bold;">#{idx+1} | {n['date']}</span>
-                            <a href="{n['link']}" target="_blank" style="color: #10B981; font-size: 0.8rem; font-weight: bold; text-decoration: none;">Read Source ↗</a>
-                        </div>
-                        <div style="color: #E0E6ED; font-size: 0.95rem; font-weight: 600; line-height: 1.4;">
-                            {n['title']}
-                        </div>
-                    </div>
-                    """
+                    news_cards_html += f"""<div class="news-card">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+<span style="color: #3B82F6; font-size: 0.8rem; font-weight: bold;">#{idx+1} | {n['date']}</span>
+<a href="{n['link']}" target="_blank" style="color: #10B981; font-size: 0.8rem; font-weight: bold; text-decoration: none;">Read Source ↗</a>
+</div>
+<div style="color: #E0E6ED; font-size: 0.95rem; font-weight: 600; line-height: 1.4;">
+{n['title']}
+</div>
+</div>"""
                 news_cards_html += '</div>'
                 st.markdown(news_cards_html, unsafe_allow_html=True)
             else:
