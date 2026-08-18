@@ -52,6 +52,38 @@ st.markdown("""
     ::-webkit-scrollbar-track { background: #0b0d11; }
     ::-webkit-scrollbar-thumb { background: #2a2e39; border-radius: 4px; }
     
+    /* GLOSSY ANIMATED MARQUEE BANNER */
+    .marquee-container {
+        width: 100%;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.01));
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255,255,255,0.4);
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4), inset 0 0 15px rgba(16,185,129,0.15);
+        padding: 14px 0;
+        margin-bottom: 25px;
+        border-radius: 12px;
+        white-space: nowrap;
+    }
+    .marquee-text {
+        display: inline-block;
+        padding-left: 100%;
+        animation: scroll-left 18s linear infinite;
+        font-size: 1.3rem;
+        font-weight: 900;
+        background: -webkit-linear-gradient(45deg, #10B981, #3B82F6, #10B981);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+    @keyframes scroll-left {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+
     /* GRADIENT TITLES */
     h1 {
         background: -webkit-linear-gradient(45deg, #10B981, #3B82F6);
@@ -174,6 +206,10 @@ st.markdown("""
         color: #E0E6ED !important;
     }
 </style>
+
+<div class="marquee-container">
+    <div class="marquee-text">✨ Made by : Triad of Visionaries ✨</div>
+</div>
 """, unsafe_allow_html=True)
 
 # --- 2. ADVANCED DATA FETCHERS & QUANT ENGINE ---
