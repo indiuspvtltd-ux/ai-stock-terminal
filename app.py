@@ -40,10 +40,10 @@ st.markdown("""
     .stApp { 
         background-color: #040506;
         background-image: 
-            radial-gradient(at 15% 20%, rgba(16, 185, 129, 0.04) 0px, transparent 40%),
-            radial-gradient(at 85% 15%, rgba(59, 130, 246, 0.05) 0px, transparent 40%),
-            radial-gradient(at 50% 90%, rgba(239, 68, 68, 0.03) 0px, transparent 50%),
-            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+            radial-gradient(at 15% 20%, rgba(16, 185, 129, 0.08) 0px, transparent 40%),
+            radial-gradient(at 85% 15%, rgba(59, 130, 246, 0.08) 0px, transparent 40%),
+            radial-gradient(at 50% 90%, rgba(239, 68, 68, 0.05) 0px, transparent 50%),
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
         background-attachment: fixed;
     }
     .main { background: transparent; color: #E0E6ED; font-family: 'Inter', sans-serif; }
@@ -52,67 +52,98 @@ st.markdown("""
     ::-webkit-scrollbar-track { background: #0b0d11; }
     ::-webkit-scrollbar-thumb { background: #2a2e39; border-radius: 4px; }
     
-    div[data-testid="stMetric"] {
-        background: rgba(11, 13, 17, 0.65);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.05);
-        padding: 20px 25px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        transition: all 0.3s ease;
-    }
-    div[data-testid="stMetric"]:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-        border-color: rgba(255,255,255,0.15);
+    /* GRADIENT TITLES */
+    h1 {
+        background: -webkit-linear-gradient(45deg, #10B981, #3B82F6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 900;
+        letter-spacing: 1px;
     }
 
+    /* GLOSSY GLASSMORPHISM METRICS */
+    div[data-testid="stMetric"] {
+        background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-top: 1px solid rgba(255,255,255,0.2);
+        border-left: 1px solid rgba(255,255,255,0.2);
+        padding: 20px 25px;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    div[data-testid="stMetric"]:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 40px rgba(16, 185, 129, 0.2);
+        border-color: rgba(255,255,255,0.4);
+    }
+
+    /* NEON GLASS BUTTONS */
+    div.stButton > button {
+        background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-top: 1px solid rgba(255,255,255,0.4);
+        color: #E0E6ED; 
+        border-radius: 12px; 
+        padding: 8px 20px; 
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+    }
+    div.stButton > button:hover { 
+        border-color: #10B981; 
+        color: #10B981; 
+        box-shadow: 0 0 20px rgba(16,185,129,0.4), inset 0 0 10px rgba(16,185,129,0.2);
+        transform: translateY(-2px);
+    }
+
+    /* SIGNAL BOXES WITH GLOW */
     .signal-box {
         padding: 20px;
-        border-radius: 12px;
+        border-radius: 16px;
         font-size: 1.05rem;
         line-height: 1.6;
         margin-bottom: 15px;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-top: 1px solid rgba(255,255,255,0.2);
         transition: all 0.3s ease;
     }
     .buy-signal { 
-        background: rgba(16, 185, 129, 0.05); color: #10B981; 
-        border: 1px solid rgba(16, 185, 129, 0.2);
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.05);
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(0,0,0,0)); color: #10B981; 
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        box-shadow: 0 0 25px rgba(16, 185, 129, 0.1);
     }
+    .buy-signal:hover { box-shadow: 0 0 35px rgba(16, 185, 129, 0.25); transform: translateY(-3px); }
+    
     .sell-signal { 
-        background: rgba(239, 68, 68, 0.05); color: #EF4444; 
-        border: 1px solid rgba(239, 68, 68, 0.2);
-        box-shadow: 0 0 20px rgba(239, 68, 68, 0.05);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(0,0,0,0)); color: #EF4444; 
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        box-shadow: 0 0 25px rgba(239, 68, 68, 0.1);
     }
+    .sell-signal:hover { box-shadow: 0 0 35px rgba(239, 68, 68, 0.25); transform: translateY(-3px); }
+    
     .neutral-signal { 
-        background: rgba(245, 158, 11, 0.05); color: #F59E0B; 
-        border: 1px solid rgba(245, 158, 11, 0.2);
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(0,0,0,0)); color: #F59E0B; 
+        border: 1px solid rgba(245, 158, 11, 0.3);
     }
 
     .reasoning-box {
-        background-color: rgba(11, 13, 17, 0.7); 
+        background: linear-gradient(135deg, rgba(11, 13, 17, 0.8), rgba(11, 13, 17, 0.4)); 
         border-left: 4px solid #3B82F6; padding: 18px;
-        border-radius: 0 8px 8px 0; margin-bottom: 15px; font-size: 0.95rem; color: #cbd5e1;
-        backdrop-filter: blur(5px);
+        border-radius: 0 12px 12px 0; margin-bottom: 15px; font-size: 0.95rem; color: #cbd5e1;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     
     [data-testid="stSidebar"] { 
-        background-color: rgba(11, 13, 17, 0.9); 
+        background-color: rgba(11, 13, 17, 0.85); 
         border-right: 1px solid rgba(255,255,255,0.05); 
-        backdrop-filter: blur(15px);
-    }
-    
-    div.stButton > button {
-        background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #E0E6ED; 
-        border-radius: 8px; padding: 6px 16px; transition: all 0.2s ease;
-    }
-    div.stButton > button:hover { 
-        border-color: #10B981; color: #10B981; 
-        box-shadow: 0 0 15px rgba(16,185,129,0.2);
+        backdrop-filter: blur(20px);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -212,7 +243,6 @@ def calculate_advanced_indicators(df, forecast_win, analysis_win):
     df['R1'] = (2 * df['Pivot']) - df['Low'].shift(1)
     df['S1'] = (2 * df['Pivot']) - df['High'].shift(1)
     
-    # ATR (Average True Range) for Dynamic Risk Modeling
     high_low = df['High'] - df['Low']
     high_close = np.abs(df['High'] - df['Close'].shift())
     low_close = np.abs(df['Low'] - df['Close'].shift())
@@ -373,7 +403,7 @@ else:
     sys_text = f"🔴 MARKET CLOSED | Time: {ist_now.strftime('%H:%M')} IST"
 
 st.sidebar.markdown(f"""
-<div style='border: 1px solid {sys_color}50; padding: 12px; border-radius: 8px; text-align: center; color: {sys_color}; font-weight: bold; font-size: 0.85rem; margin-bottom: 20px; background: rgba(0,0,0,0.4);'>
+<div style='border: 1px solid {sys_color}50; padding: 12px; border-radius: 12px; text-align: center; color: {sys_color}; font-weight: bold; font-size: 0.85rem; margin-bottom: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.2);'>
 {sys_text}
 </div>
 """, unsafe_allow_html=True)
@@ -468,6 +498,43 @@ if st.session_state.current_view == "Single Stock Analysis":
             fig.update_xaxes(gridcolor='rgba(255,255,255,0.05)', zerolinecolor='rgba(255,255,255,0.05)')
             st.plotly_chart(fig, use_container_width=True)
 
+            # --- NEW 3D INTERACTIVE PLOTLY CHART ---
+            st.markdown("---")
+            st.subheader("🌌 3D MARKET TOPOGRAPHY")
+            st.write("Interactive 3D mapping of Price, Momentum (RSI), and Trend (MACD). Rotate and zoom to explore.")
+            
+            fig_3d = go.Figure(data=[go.Scatter3d(
+                x=df_display['Date'],
+                y=df_display['Close'],
+                z=df_display['RSI'],
+                mode='markers+lines',
+                line=dict(width=2, color='rgba(59, 130, 246, 0.5)'),
+                marker=dict(
+                    size=5,
+                    color=df_display['MACD'],
+                    colorscale='Viridis',
+                    opacity=0.9,
+                    colorbar=dict(title="MACD", x=0.9)
+                ),
+                text=df_display['Date'].dt.strftime('%Y-%m-%d')
+            )])
+            
+            fig_3d.update_layout(
+                template="plotly_dark",
+                scene=dict(
+                    xaxis_title='Timeline',
+                    yaxis_title='Asset Price',
+                    zaxis_title='RSI Momentum',
+                    bgcolor="rgba(0,0,0,0)"
+                ),
+                margin=dict(l=0, r=0, b=0, t=0),
+                height=600,
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig_3d, use_container_width=True)
+            # ---------------------------------------
+
             st.markdown("---")
             
             col_diag, col_intra = st.columns([1.5, 1])
@@ -505,20 +572,20 @@ if st.session_state.current_view == "Single Stock Analysis":
                 dynamic_stop = price - (1.5 * atr_val)
                 
                 st.markdown(f"""
-<div style="background-color: rgba(11,13,17,0.7); backdrop-filter: blur(5px); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
+<div style="background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); padding: 25px; border-radius: 20px; border-top: 1px solid rgba(255,255,255,0.2); border-left: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);">
 <h4 style="color: #E0E6ED; margin-top:0; font-size: 1.1rem;">Capital Protection Plan</h4>
 <p style="color: #94a3b8; font-size: 0.9rem;">Automated floor levels mapped via Average True Range (ATR) & Daily Pivots.</p>
 <div style="margin-top: 20px;">
 <span style="color: #10B981; font-weight: 700;">↑ Breakout Target (R1):</span><br>
-<span style="font-size: 1.4rem; font-weight: 800; color: #E0E6ED;">₹{r1:,.2f}</span>
+<span style="font-size: 1.4rem; font-weight: 800; color: #E0E6ED; text-shadow: 0 0 10px rgba(16,185,129,0.3);">₹{r1:,.2f}</span>
 </div>
 <div style="margin-top: 20px;">
 <span style="color: #EF4444; font-weight: 700;">↓ Static Stop-Loss (S1):</span><br>
-<span style="font-size: 1.4rem; font-weight: 800; color: #E0E6ED;">₹{s1:,.2f}</span>
+<span style="font-size: 1.4rem; font-weight: 800; color: #E0E6ED; text-shadow: 0 0 10px rgba(239,68,68,0.3);">₹{s1:,.2f}</span>
 </div>
 <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
 <span style="color: #3B82F6; font-weight: 700;">🛡️ DYNAMIC ATR STOP (1.5x):</span><br>
-<span style="font-size: 1.5rem; font-weight: 900; color: #3B82F6;">₹{dynamic_stop:,.2f}</span>
+<span style="font-size: 1.5rem; font-weight: 900; color: #3B82F6; text-shadow: 0 0 15px rgba(59,130,246,0.5);">₹{dynamic_stop:,.2f}</span>
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -543,9 +610,9 @@ if st.session_state.current_view == "Single Stock Analysis":
             col_t1_metrics, col_t1_context = st.columns([1, 2])
             with col_t1_metrics:
                 st.markdown(f"""
-<div style="background-color: rgba(11,13,17,0.7); backdrop-filter: blur(5px); padding: 25px; border-radius: 16px; border: 1px solid {t1_color}40; box-shadow: 0 5px 20px {t1_color}10;">
+<div style="background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); padding: 25px; border-radius: 20px; border-top: 1px solid rgba(255,255,255,0.2); border-left: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); border-right: 2px solid {t1_color}80;">
 <div style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 8px;">T+1 Expected Open</div>
-<div style="color: #E0E6ED; font-size: 2rem; font-weight: 800; margin-bottom: 12px;">₹{t1_target:,.2f}</div>
+<div style="color: #E0E6ED; font-size: 2rem; font-weight: 800; margin-bottom: 12px; text-shadow: 0 0 15px {t1_color}40;">₹{t1_target:,.2f}</div>
 <div style="color: {t1_color}; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px;">{t1_direction}</div>
 </div>
 """, unsafe_allow_html=True)
@@ -567,22 +634,22 @@ if st.session_state.current_view == "Single Stock Analysis":
             if is_short_bull and is_long_bull and rsi_val < 70 and float(latest['MACD']) > float(latest['MACD_Signal']):
                 holding_advice = "🟢 **RECOMMENDATION: HOLD YOUR POSITION / RIDE THE TREND**"
                 advice_color = "#10B981"
-                advice_bg = "rgba(16, 185, 129, 0.08)"
+                advice_bg = "linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(0,0,0,0))"
                 detailed_action = "Your shares are backed by solid upward momentum and institutional trendlines. **Do not sell yet.** Keep holding to maximize gains, but trail your stop-loss upward to protect your profits."
             elif rsi_val > 70 or price < float(latest['S1']):
                 holding_advice = "🔴 **RECOMMENDATION: SQUARE OFF / SELL IMMEDIATELY**"
                 advice_color = "#EF4444"
-                advice_bg = "rgba(239, 68, 68, 0.08)"
+                advice_bg = "linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(0,0,0,0))"
                 detailed_action = "The asset is either heavily overbought or has breached key emergency support levels. **Lock in your profits or cut losses now** to prevent capital erosion from a sudden correction."
             else:
                 holding_advice = "🟡 **RECOMMENDATION: WAIT & WATCH FOR THE NEXT FEW DAYS**"
                 advice_color = "#F59E0B"
-                advice_bg = "rgba(245, 158, 11, 0.08)"
+                advice_bg = "linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(0,0,0,0))"
                 detailed_action = "The stock is currently consolidating or displaying mixed signals between short and long trends. **Do not panic sell or buy more.** Observe price action over the next few sessions until a clear breakout occurs."
 
             st.markdown(f"""
-<div style="background-color: {advice_bg}; border: 1px solid {advice_color}50; padding: 25px; border-radius: 16px; backdrop-filter: blur(5px);">
-    <div style="color: {advice_color}; font-size: 1.25rem; font-weight: 800; margin-bottom: 12px;">{holding_advice}</div>
+<div style="background: {advice_bg}; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.2); border-left: 1px solid rgba(255,255,255,0.2); border-right: 1px solid {advice_color}50; border-bottom: 1px solid {advice_color}50; padding: 25px; border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);">
+    <div style="color: {advice_color}; font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; text-shadow: 0 0 15px {advice_color}60;">{holding_advice}</div>
     <p style="color: #E0E6ED; font-size: 1.1rem; line-height: 1.6; margin: 0;">
         {detailed_action}
     </p>
@@ -675,7 +742,7 @@ elif st.session_state.current_view == "Live Intraday Tracker":
                 msg = f"Mixed signals. Price is hovering near VWAP or RSI is stretched ({rsi_val:.1f}). Wait for a clear breakout."
                 
             st.markdown(f"""
-            <div class="signal-box {box_class}" style="background-color: rgba(11,13,17,0.8); backdrop-filter: blur(5px);">
+            <div class="signal-box {box_class}">
                 <div style="font-size: 1.3rem; font-weight: 800; margin-bottom: 8px;">{signal}</div>
                 <div style="color: #cbd5e1; font-size: 1.05rem;">{msg}</div>
             </div>
@@ -762,15 +829,15 @@ elif st.session_state.current_view == "Live Intraday Tracker":
                 col = cols[idx % 3]
                 with col:
                     st.markdown(f"""
-                    <div style="background-color: rgba(11,13,17,0.75); backdrop-filter: blur(8px); padding: 18px; border-radius: 14px; border: 1px solid rgba(16, 185, 129, 0.25); margin-bottom: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
+                    <div style="background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); padding: 18px; border-radius: 16px; border-top: 1px solid rgba(16, 185, 129, 0.5); border-left: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); margin-bottom: 12px; transition: all 0.3s ease;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                             <span style="font-size: 1.15rem; font-weight: 800; color: #E0E6ED;">{item['Symbol']}</span>
-                            <span style="background: rgba(16, 185, 129, 0.15); color: #10B981; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 0.85rem;">+{item['Gain']:.2f}%</span>
+                            <span style="background: rgba(16, 185, 129, 0.15); color: #10B981; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 0 10px rgba(16,185,129,0.2);">+{item['Gain']:.2f}%</span>
                         </div>
-                        <div style="font-size: 1.4rem; font-weight: 800; color: #E0E6ED; margin-bottom: 6px;">₹{item['Price']:,.2f}</div>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: #E0E6ED; margin-bottom: 6px; text-shadow: 0 0 10px rgba(255,255,255,0.1);">₹{item['Price']:,.2f}</div>
                         <div style="color: #94a3b8; font-size: 0.82rem; line-height: 1.5;">
                             VWAP: <b style="color: #F59E0B;">₹{item['VWAP']:,.2f}</b> (+{item['VWAP_Margin']:.2f}% above)<br>
-                            RSI Momentum: <b style="color: #3B82F6;">{item['RSI']:.1f}</b>
+                            RSI Momentum: <b style="color: #3B82F6; text-shadow: 0 0 10px rgba(59,130,246,0.3);">{item['RSI']:.1f}</b>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -841,9 +908,9 @@ elif st.session_state.current_view == "Market Screener":
                 for pick in st.session_state.upward_picks:
                     with st.container():
                         st.markdown(f'''
-<div class="signal-box buy-signal" style="background: rgba(11,13,17,0.7); backdrop-filter: blur(5px);">
+<div class="signal-box buy-signal" style="background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(0,0,0,0)); backdrop-filter: blur(10px); border-radius: 16px; padding: 18px; border-top: 1px solid rgba(16,185,129,0.5);">
     <b>{pick["Symbol"]}</b> — ₹{pick["Price"]:,.2f}<br>
-    <small>RSI: {pick["RSI"]:.1f} | <span style="color: #10B981; font-weight: bold;">Est. Return if Bought Now: +{pick["Gain"]:.2f}%</span></small>
+    <small>RSI: {pick["RSI"]:.1f} | <span style="color: #10B981; font-weight: bold; text-shadow: 0 0 10px rgba(16,185,129,0.3);">Est. Return if Bought Now: +{pick["Gain"]:.2f}%</span></small>
 </div>
 ''', unsafe_allow_html=True)
                         st.button(f"Analyze {pick['Symbol']}", key=f"buy_{pick['Symbol']}", on_click=route_to_analysis, args=(pick["Symbol"],))
@@ -856,7 +923,7 @@ elif st.session_state.current_view == "Market Screener":
                 for pick in st.session_state.downward_picks:
                     with st.container():
                         st.markdown(f'''
-<div class="signal-box sell-signal" style="background: rgba(11,13,17,0.7); backdrop-filter: blur(5px);">
+<div class="signal-box sell-signal" style="background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(0,0,0,0)); backdrop-filter: blur(10px); border-radius: 16px; padding: 18px; border-top: 1px solid rgba(239,68,68,0.5);">
     <b>{pick["Symbol"]}</b> — ₹{pick["Price"]:,.2f}<br>
     <small>RSI: {pick["RSI"]:.1f}</small>
 </div>
@@ -869,7 +936,7 @@ elif st.session_state.current_view == "Market Screener":
 
 
 # ==========================================
-# VIEW 4: HISTORICAL STRATEGY BACKTESTER (NEW)
+# VIEW 4: HISTORICAL STRATEGY BACKTESTER
 # ==========================================
 elif st.session_state.current_view == "Historical Strategy Backtester":
     st.subheader("⚙️ Quantitative Strategy Backtester")
@@ -918,7 +985,6 @@ elif st.session_state.current_view == "Live AMFI Mutual Funds":
     amounts = [500 * i for i in range(1, 11)]
     selected_amount = st.selectbox(f"Select {inv_mode} Amount (INR):", amounts, index=1)
     
-    # Genuine AMFI Scheme Codes mapping to top Mutual Funds
     AMFI_FUNDS = [
         {"code": "120716", "name": "HDFC Flexi Cap Fund", "category": "Flexi Cap", "risk": "High"},
         {"code": "120465", "name": "Nippon India Small Cap", "category": "Small Cap", "risk": "Very High"},
@@ -955,15 +1021,15 @@ elif st.session_state.current_view == "Live AMFI Mutual Funds":
                 total_gain = m5 - total_invested
                 gain_pct = (total_gain / total_invested) * 100
                 
-                card_html = f"""<div style="background-color: rgba(11,13,17,0.75); backdrop-filter: blur(8px); padding: 22px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px;">
+                card_html = f"""<div style="background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); padding: 22px; border-radius: 20px; border-top: 1px solid rgba(255,255,255,0.2); border-left: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); margin-bottom: 20px; transition: all 0.3s ease;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h3 style="color: #E0E6ED; margin: 0; font-size: 1.2rem;">🌟 {fund['name']} <span style="font-size:0.8rem; color:#94a3b8;">(Code: {fund['code']})</span></h3>
-        <span style="background: rgba(59, 130, 246, 0.1); color: #3B82F6; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold;">{fund['category']}</span>
+        <h3 style="color: #E0E6ED; margin: 0; font-size: 1.2rem; text-shadow: 0 0 10px rgba(255,255,255,0.2);">🌟 {fund['name']} <span style="font-size:0.8rem; color:#94a3b8;">(Code: {fund['code']})</span></h3>
+        <span style="background: rgba(59, 130, 246, 0.1); color: #3B82F6; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 0 10px rgba(59,130,246,0.2);">{fund['category']}</span>
         </div>
         <div style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 15px;">
         Live NAV: <b style="color: #10B981;">₹{live_nav:,.2f}</b> | Risk Level: <b style="color: #F59E0B;">{fund['risk']}</b> | Base: ₹{selected_amount:,}
         </div>
-        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; text-align: center;">
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
         <div>
         <div style="color: #94a3b8; font-size: 0.75rem;">1 Month</div>
         <div style="color: #10B981; font-weight: bold; font-size: 0.95rem;">₹{m1:,.0f}</div>
@@ -982,7 +1048,7 @@ elif st.session_state.current_view == "Live AMFI Mutual Funds":
         </div>
         <div>
         <div style="color: #94a3b8; font-size: 0.75rem;">5 Months</div>
-        <div style="color: #3B82F6; font-weight: bold; font-size: 1.05rem;">₹{m5:,.0f}</div>
+        <div style="color: #3B82F6; font-weight: bold; font-size: 1.05rem; text-shadow: 0 0 10px rgba(59,130,246,0.5);">₹{m5:,.0f}</div>
         </div>
         </div>
         <div style="margin-top: 12px; font-size: 0.85rem; color: #cbd5e1; display: flex; justify-content: space-between;">
