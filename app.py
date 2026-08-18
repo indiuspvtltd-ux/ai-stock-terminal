@@ -53,7 +53,7 @@ st.markdown("""
     ::-webkit-scrollbar-track { background: #0b0d11; }
     ::-webkit-scrollbar-thumb { background: #2a2e39; border-radius: 4px; }
     
-    /* GLOSSY ANIMATED MARQUEE BANNER */
+    /* GLOSSY ANIMATED TOP BANNER */
     .marquee-container {
         width: 100%;
         overflow: hidden;
@@ -68,10 +68,13 @@ st.markdown("""
         border-radius: 12px;
         white-space: nowrap;
     }
+    .marquee-container:hover .marquee-text {
+        animation-play-state: paused;
+    }
     .marquee-text {
         display: inline-block;
         padding-left: 100%;
-        animation: scroll-left 18s linear infinite;
+        animation: scroll-left 25s linear infinite;
         font-size: 1.3rem;
         font-weight: 900;
         background: -webkit-linear-gradient(45deg, #10B981, #3B82F6, #10B981);
@@ -85,7 +88,7 @@ st.markdown("""
         100% { transform: translateX(-100%); }
     }
 
-    /* NEWS MARQUEE BANNER */
+    /* SLOW, READABLE NEWS MARQUEE BANNER */
     .news-marquee-container {
         width: 100%;
         overflow: hidden;
@@ -95,15 +98,20 @@ st.markdown("""
         border-top: 1px solid rgba(59, 130, 246, 0.5);
         border-bottom: 1px solid rgba(59, 130, 246, 0.3);
         box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4), inset 0 0 15px rgba(59, 130, 246, 0.15);
-        padding: 12px 0;
+        padding: 14px 0;
         margin-bottom: 15px;
         border-radius: 12px;
         white-space: nowrap;
+        cursor: pointer;
+    }
+    /* PAUSE SCROLL ON HOVER */
+    .news-marquee-container:hover .news-marquee-text {
+        animation-play-state: paused;
     }
     .news-marquee-text {
         display: inline-block;
         padding-left: 100%;
-        animation: scroll-news 45s linear infinite;
+        animation: scroll-news 180s linear infinite;
         font-size: 1.05rem;
         font-weight: 700;
         color: #E0E6ED;
@@ -805,7 +813,7 @@ if st.session_state.current_view == "Single Stock Analysis":
             # ==========================================
             st.markdown("---")
             st.subheader(f"📰 LIVE TOP 100 BREAKING MARKET HEADLINES ({ticker})")
-            st.write("Real-time live news stream directly curated for Indian equities and market developments.")
+            st.write("Real-time live news stream directly curated for Indian equities and market developments. *Hover over the ticker to pause!*")
 
             with st.spinner("Fetching breaking market intelligence..."):
                 news_list = get_top_100_market_news(ticker)
@@ -813,7 +821,7 @@ if st.session_state.current_view == "Single Stock Analysis":
             if news_list:
                 marquee_headline_str = " &nbsp;&nbsp;&nbsp;&nbsp; 🔴 BREAKING: &nbsp;&nbsp;&nbsp;&nbsp; ".join([f"{item['title']} ({item['date']})" for item in news_list[:25]])
                 st.markdown(f"""
-                <div class="news-marquee-container">
+                <div class="news-marquee-container" title="Hover to Pause">
                     <div class="news-marquee-text">🔴 LIVE TICKER: {marquee_headline_str}</div>
                 </div>
                 """, unsafe_allow_html=True)
