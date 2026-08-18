@@ -40,10 +40,10 @@ st.markdown("""
     .stApp { 
         background-color: #040506;
         background-image: 
-            radial-gradient(at 15% 20%, rgba(16, 185, 129, 0.08) 0px, transparent 40%),
-            radial-gradient(at 85% 15%, rgba(59, 130, 246, 0.08) 0px, transparent 40%),
-            radial-gradient(at 50% 90%, rgba(239, 68, 68, 0.05) 0px, transparent 50%),
-            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            radial-gradient(at 15% 20%, rgba(16, 185, 129, 0.04) 0px, transparent 40%),
+            radial-gradient(at 85% 15%, rgba(59, 130, 246, 0.05) 0px, transparent 40%),
+            radial-gradient(at 50% 90%, rgba(239, 68, 68, 0.03) 0px, transparent 50%),
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
         background-attachment: fixed;
     }
     .main { background: transparent; color: #E0E6ED; font-family: 'Inter', sans-serif; }
@@ -144,6 +144,34 @@ st.markdown("""
         background-color: rgba(11, 13, 17, 0.85); 
         border-right: 1px solid rgba(255,255,255,0.05); 
         backdrop-filter: blur(20px);
+    }
+
+    /* GLOSSY CHAT INTERFACE UPGRADES */
+    div[data-testid="stChatMessage"] {
+        background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-top: 1px solid rgba(255,255,255,0.2);
+        border-left: 1px solid rgba(255,255,255,0.2);
+        border-radius: 16px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
+    }
+
+    div[data-testid="stChatInput"] {
+        background: linear-gradient(135deg, rgba(11, 13, 17, 0.8), rgba(11, 13, 17, 0.4));
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(59, 130, 246, 0.4);
+        border-left: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        padding: 5px;
+        box-shadow: 0 8px 32px 0 rgba(0,0,0,0.5);
+    }
+    
+    div[data-testid="stChatInput"] textarea {
+        color: #E0E6ED !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -498,7 +526,7 @@ if st.session_state.current_view == "Single Stock Analysis":
             fig.update_xaxes(gridcolor='rgba(255,255,255,0.05)', zerolinecolor='rgba(255,255,255,0.05)')
             st.plotly_chart(fig, use_container_width=True)
 
-            # --- NEW 3D INTERACTIVE PLOTLY CHART ---
+            # --- 3D INTERACTIVE PLOTLY CHART ---
             st.markdown("---")
             st.subheader("🌌 3D MARKET TOPOGRAPHY")
             st.write("Interactive 3D mapping of Price, Momentum (RSI), and Trend (MACD). Rotate and zoom to explore.")
@@ -533,7 +561,6 @@ if st.session_state.current_view == "Single Stock Analysis":
                 plot_bgcolor="rgba(0,0,0,0)",
             )
             st.plotly_chart(fig_3d, use_container_width=True)
-            # ---------------------------------------
 
             st.markdown("---")
             
