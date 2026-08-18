@@ -6,6 +6,7 @@ from plotly.subplots import make_subplots
 from datetime import datetime, timedelta
 import yfinance as yf
 import requests
+import xml.etree.ElementTree as ET
 import os
 
 # --- 1. CONFIG, SESSION STATE & CSS ---
@@ -82,6 +83,63 @@ st.markdown("""
     @keyframes scroll-left {
         0%   { transform: translateX(0); }
         100% { transform: translateX(-100%); }
+    }
+
+    /* NEWS MARQUEE BANNER */
+    .news-marquee-container {
+        width: 100%;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.03));
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(59, 130, 246, 0.5);
+        border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(0,0,0,0.4), inset 0 0 15px rgba(59, 130, 246, 0.15);
+        padding: 12px 0;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        white-space: nowrap;
+    }
+    .news-marquee-text {
+        display: inline-block;
+        padding-left: 100%;
+        animation: scroll-news 45s linear infinite;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #E0E6ED;
+        letter-spacing: 1px;
+    }
+    @keyframes scroll-news {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+
+    /* GLOSSY SCROLLABLE NEWS FEED BOX */
+    .glossy-news-box {
+        background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-top: 1px solid rgba(255,255,255,0.2);
+        border-left: 1px solid rgba(255,255,255,0.2);
+        padding: 20px;
+        border-radius: 16px;
+        max-height: 380px;
+        overflow-y: auto;
+        box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
+        margin-bottom: 25px;
+    }
+    .news-card {
+        padding: 12px 16px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.05);
+        transition: all 0.3s ease;
+    }
+    .news-card:hover {
+        background: rgba(59, 130, 246, 0.08);
+        border-color: rgba(59, 130, 246, 0.4);
+        transform: translateX(4px);
     }
 
     /* GRADIENT TITLES */
@@ -264,6 +322,29 @@ def get_intraday_data(symbol):
     df['RSI'] = df['RSI'].fillna(50.0)
     
     return df
+
+@st.cache_data(ttl=600)
+def get_top_100_market_news(ticker=""):
+    """Fetches up to 100 live breaking stock market headlines from Indian and global financial feeds"""
+    news_items = []
+    try:
+        query = f"{ticker} stock market India NSE" if ticker else "Indian stock market Nifty Sensex NSE BSE business"
+        url = f"https://news.google.com/rss/search?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        res = requests.get(url, headers=headers, timeout=6)
+        if res.status_code == 200:
+            root = ET.fromstring(res.content)
+            for item in root.findall('.//item')[:100]:
+                title = item.find('title').text if item.find('title') is not None else ""
+                link = item.find('link').text if item.find('link') is not None else "#"
+                pub_date = item.find('pubDate').text if item.find('pubDate') is not None else ""
+                if pub_date and len(pub_date) > 16:
+                    pub_date = pub_date[:16]
+                if title:
+                    news_items.append({"title": title, "link": link, "date": pub_date})
+    except Exception:
+        pass
+    return news_items
 
 @st.cache_data(ttl=3600)
 def get_live_amfi_data(scheme_code):
@@ -719,8 +800,46 @@ if st.session_state.current_view == "Single Stock Analysis":
 </div>
 """, unsafe_allow_html=True)
 
+            # ==========================================
+            # --- GLOSSY TOP 100 MARKET NEWS SECTION ---
+            # ==========================================
             st.markdown("---")
+            st.subheader(f"📰 LIVE TOP 100 BREAKING MARKET HEADLINES ({ticker})")
+            st.write("Real-time live news stream directly curated for Indian equities and market developments.")
 
+            with st.spinner("Fetching breaking market intelligence..."):
+                news_list = get_top_100_market_news(ticker)
+
+            if news_list:
+                marquee_headline_str = " &nbsp;&nbsp;&nbsp;&nbsp; 🔴 BREAKING: &nbsp;&nbsp;&nbsp;&nbsp; ".join([f"{item['title']} ({item['date']})" for item in news_list[:25]])
+                st.markdown(f"""
+                <div class="news-marquee-container">
+                    <div class="news-marquee-text">🔴 LIVE TICKER: {marquee_headline_str}</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                news_cards_html = f'<div class="glossy-news-box">'
+                for idx, n in enumerate(news_list):
+                    news_cards_html += f"""
+                    <div class="news-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                            <span style="color: #3B82F6; font-size: 0.8rem; font-weight: bold;">#{idx+1} | {n['date']}</span>
+                            <a href="{n['link']}" target="_blank" style="color: #10B981; font-size: 0.8rem; font-weight: bold; text-decoration: none;">Read Source ↗</a>
+                        </div>
+                        <div style="color: #E0E6ED; font-size: 0.95rem; font-weight: 600; line-height: 1.4;">
+                            {n['title']}
+                        </div>
+                    </div>
+                    """
+                news_cards_html += '</div>'
+                st.markdown(news_cards_html, unsafe_allow_html=True)
+            else:
+                st.info("Market news feed is updating. Please refresh in a few moments.")
+
+            # ==========================================
+            # --- AI ASSISTANT CHAT SECTION ---
+            # ==========================================
+            st.markdown("---")
             st.subheader(f"💬 AI ASSISTANT CHAT: ASK ANYTHING ABOUT {ticker} OR GENERAL TOPICS")
             st.write("Powered by Groq AI. Ask about this stock, market trends, coding, or anything else!")
 
