@@ -340,7 +340,7 @@ def call_live_ai_model(prompt, ticker, price, rsi, macd_status, pivot, r1, s1, t
     }
     
     payload = {
-        "model": "llama3-8b-8192",
+        "model": "openai/gpt-oss-20b",
         "messages": [
             {"role": "system", "content": system_context},
             {"role": "user", "content": prompt}
